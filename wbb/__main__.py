@@ -92,7 +92,7 @@ async def start_bot():
             await app.edit_message_text(
                 restart_data["chat_id"],
                 restart_data["message_id"],
-                "**Restarted Successfully**",
+                "**I Have Successfully Restarted Myself Only. LMAO**",
             )
 
         else:
@@ -102,7 +102,7 @@ async def start_bot():
 
     await idle()
 
-    print("[INFO]: STOPPING BOT AND CLOSING AIOHTTP SESSION")
+    print("[INFO]: SOME ERROR FOUND LOL. STOPPING BOT AND CLOSING AIOHTTP SESSION")
     await aiohttpsession.close()
 
 
@@ -111,6 +111,9 @@ home_keyboard_pm = InlineKeyboardMarkup(
         [
             InlineKeyboardButton(
                 text="Commands 🥳", callback_data="bot_commands"
+            ),
+            InlineKeyboardButton(
+                text="Contact Master 🤑", url="http://t.me/TheImperialEagle"
             ),  
         ],
         [
