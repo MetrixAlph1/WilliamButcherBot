@@ -177,7 +177,7 @@ class InlineQueryResultAudio(InlineQueryResult):
 
 
 #  CREDITS:
-#       NONE. [https://t.me/TheImperialEagle]
+#       NONE
 #       NONE
 
 
