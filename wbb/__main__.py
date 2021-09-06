@@ -110,20 +110,16 @@ home_keyboard_pm = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                text="Commands ❓", callback_data="bot_commands"
-            ),
-            InlineKeyboardButton(
-                text="Repo 🛠",
-                url="https://github.com/thehamkercat/WilliamButcherBot",
-            ),
+                text="Commands 🥳", callback_data="bot_commands"
+            ),  
         ],
         [
             InlineKeyboardButton(
-                text="System Stats 🖥",
+                text="System Stats 🌟",
                 callback_data="stats_callback",
             ),
             InlineKeyboardButton(
-                text="Support 👨", url="http://t.me/WBBSupport"
+                text="Support 🆘", url="http://t.me/TEAM_INCREDIBLEZ"
             ),
         ],
         [
@@ -136,9 +132,9 @@ home_keyboard_pm = InlineKeyboardMarkup(
 )
 
 home_text_pm = (
-    f"Hey there! My name is {BOT_NAME}. I can manage your "
-    + "group with lots of useful features, feel free to "
-    + "add me to your group."
+    f"Yo Mf(Sorry My language is bad cause I am designed like that)!. Thee name is {BOT_NAME}". I can manage your "
+    + "group with lots of useful features(but IDC I can even remove members from your group :) Lol. But do feel free "
+    + "to add me to your sexiest fucking group."
 )
 
 
