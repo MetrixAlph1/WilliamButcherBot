@@ -148,27 +148,23 @@ async def help_command(_, message):
             [
                 [
                     InlineKeyboardButton(
-                        text="Help ❓",
+                        text="Help",
                         url=f"t.me/{BOT_USERNAME}?start=help",
-                    ),
-                    InlineKeyboardButton(
-                        text="Repo 🛠",
-                        url="https://github.com/thehamkercat/WilliamButcherBot",
-                    ),
+                    )
                 ],
                 [
                     InlineKeyboardButton(
-                        text="System Stats 💻",
+                        text="System Stats",
                         callback_data="stats_callback",
                     ),
                     InlineKeyboardButton(
-                        text="Support 👨", url="t.me/WBBSupport"
+                        text="Support", url="t.me/Team_Incrediblez",
                     ),
                 ],
             ]
         )
         return await message.reply(
-            "Pm Me For More Details.", reply_markup=keyboard
+            "Hey Babes 😗! Message me in private for more help.", reply_markup=keyboard
         )
     await message.reply(
         home_text_pm,
@@ -182,10 +178,10 @@ async def help_parser(name, keyboard=None):
             paginate_modules(0, HELPABLE, "help")
         )
     return (
-        """Hello {first_name}, My name is {bot_name}.
-I'm a group management bot with some useful features.
-You can choose an option below, by clicking a button.
-Also you can ask anything in Support Group.
+        """Hello there {first_name}, Thank you for using me in private. Thee name is {bot_name}.
+Well Let me tell I'm a advanced group management bot with some sexy and op fuc*ing features.
+You can try always try out me from the list of the below availabe commands, by just clicking a button.
+Also you can ask anything in my Support Group. Made with Love and always filled with surprises. 
 """.format(
             first_name=name,
             bot_name=BOT_NAME,
@@ -238,7 +234,7 @@ General command are:
         module = mod_match.group(1)
         text = (
             "{} **{}**:\n".format(
-                "Here is the help for", HELPABLE[module].__MODULE__
+                "Here's what you ask. Feel free to go through", HELPABLE[module].__MODULE__
             )
             + HELPABLE[module].__HELP__
         )
