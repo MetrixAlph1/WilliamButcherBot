@@ -135,8 +135,8 @@ home_keyboard_pm = InlineKeyboardMarkup(
 )
 
 home_text_pm = (
-    f"Yo Mf(Sorry My language is bad cause I am designed like that)!. Thee name is {BOT_NAME}". I can manage your "
-    + "group with lots of useful features(but IDC I can even remove members from your group :) Lol. But do feel free "
+    f"Yo (Sorry My language is bad cause I am designed like that)!. Thee name is {BOT_NAME}". I can manage your "
+    + "group with lots of useful features(but IDC I can even remove members from your group) :) . But do feel free "
     + "to add me to your sexiest fucking group."
 )
 
@@ -234,7 +234,7 @@ General command are:
         module = mod_match.group(1)
         text = (
             "{} **{}**:\n".format(
-                "Here's what you ask. Feel free to go through", HELPABLE[module].__MODULE__
+                "Here's what you were asking. Feel free to go through", HELPABLE[module].__MODULE__
             )
             + HELPABLE[module].__HELP__
         )
