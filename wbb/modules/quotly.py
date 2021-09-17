@@ -32,11 +32,10 @@ from wbb.core.decorators.errors import capture_err
 
 __MODULE__ = "Quotly"
 __HELP__ = """
-/q - To quote a message.
-/q [INTEGER] - To quote more than 1 messages.
-/q r - to quote a message with it's reply
+/q - To quote a message with Quotly Bot
+/q [N] - To quote more than 1 messages [N DENOTES NUMBER OF MESSAGES]
+/q r - To quote a message with it's reply. A great tool for making stickers or for a prank
 
-Use .q to quote using userbot
 """
 
 
@@ -73,11 +72,11 @@ def isArgInt(message: Message) -> bool:
 async def quotly_func(client, message: Message):
     if not message.reply_to_message:
         return await message.reply_text(
-            "Reply to a message to quote it."
+            "Please use this command while replying to a user's message."
         )
     if not message.reply_to_message.text:
         return await message.reply_text(
-            "Replied message has no text, can't quote it."
+            "The tagged message has no text, maybe a media file or something else. Can't qoute it."
         )
     m = await message.reply_text("Quoting Messages")
     if len(message.command) < 2:
@@ -116,7 +115,7 @@ async def quotly_func(client, message: Message):
             messages = [reply_message]
     else:
         await m.edit(
-            "Incorrect argument, check quotly module in help section."
+            "The Provided Segment is Incorrect, Check Quotly Bot's Section for help."
         )
         return
     try:
@@ -134,9 +133,9 @@ async def quotly_func(client, message: Message):
     except Exception as e:
         await m.edit(
             "Something went wrong while quoting messages,"
-            + " This error usually happens when there's a "
-            + " message containing something other than text,"
-            + " or one of the messages in-between are deleted."
+            + " This usually happens when someone tries to Quote a "
+            + " message containing something other than text (It doesnt matter maybe a sticker or a media file),"
+            + " or one of the messages in-between are deleted by the default user. Please try again. "
         )
         e = format_exc()
         print(e)
