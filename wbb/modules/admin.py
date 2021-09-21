@@ -36,21 +36,21 @@ from wbb.utils.functions import (extract_user,
                                  time_converter)
 
 __MODULE__ = "Admin"
-__HELP__ = """/ban - Ban A User
-/dban - Delete the replied message banning its sender
-/tban - Ban A User For Specific Time
-/unban - Unban A User
-/warn - Warn A User
+__HELP__ = """/ban - Ban A User From That Fuc*ing Group
+/dban - Delete the replied message also banning that ugly sender
+/tban - Ban A User For Specific Time Which You Specify
+/unban - Unban A User. Abe Normie Yeh tak nahi janta
+/warn - Warn A User.Abe Normie Ke Baap Warning Nahi Janta?
 /dwarn - Delete the replied message warning its sender
-/rmwarn - Remove 1 Warning Of A User
+/rmwarn - Remove 1 Warning Of A User. Basically Gives Him a LifeLine Lol
 /rmwarns - Remove All Warning of A User
-/warns - Show Warning Of A User
-/kick - Kick A User
+/warns - Show Warning Of A User with reason ki kyu us chumtiye ko warn kiya
+/kick - Kick A User From The Group. LOL
 /dkick - Delete the replied message kicking its sender
-/purge - Purge Messages
+/purge - Purge Messages. Message uda dena
 /del - Delete Replied Message
-/promote - Promote A Member
-/demote - Demote A Member
+/promote - Promote A Member. Basically chutiye ko raja banana
+/demote - Demote A Member. Chumtiye ko uske aukad mei wapas lana
 /pin - Pin A Message
 /mute - Mute A User
 /tmute - Mute A User For Specific Time
@@ -149,7 +149,7 @@ async def purgeFunc(_, message: Message):
 
     if not message.reply_to_message:
         return await message.reply_text(
-            "Reply to a message to purge from."
+            "What The Phuck Bro. Select from where you want to delete messages."
         )
 
     chat_id = message.chat.id
@@ -161,15 +161,15 @@ async def purgeFunc(_, message: Message):
     ):
         message_ids.append(message_id)
 
-        # Max message deletion limit is 100
-        if len(message_ids) == 100:
+        # Max message deletion limit is 200
+        if len(message_ids) == 200:
             await app.delete_messages(
                 chat_id=chat_id,
                 message_ids=message_ids,
                 revoke=True,  # For both sides
             )
 
-            # To delete more than 100 messages, start again
+            # To delete more than 200 messages, start again
             message_ids = []
 
     # Delete if any messages left
@@ -193,24 +193,24 @@ async def purgeFunc(_, message: Message):
 async def kickFunc(_, message: Message):
     user_id, reason = await extract_user_and_reason(message)
     if not user_id:
-        return await message.reply_text("I can't find that user.")
+        return await message.reply_text("Username not found-LOL ;>.")
     if user_id == BOT_ID:
         return await message.reply_text(
-            "I can't kick myself, i can leave if you want."
+            "Really Bro?, You want me to kick myself only? Bruh? You Alright?."
         )
     if user_id in SUDOERS:
         return await message.reply_text(
-            "You Wanna Kick The Elevated One?"
+            "This User Is a Fuckim SUDO USER - Cant Kick him?"
         )
     if user_id in (await list_admins(message.chat.id)):
         return await message.reply_text(
-            "I can't kick an admin, You know the rules, so do i."
+            "Either you are normal member trying to kick a admin or you are a admin trying to kick another admin. Sorry not possible."
         )
     mention = (await app.get_users(user_id)).mention
     msg = f"""
-**Kicked User:** {mention}
-**Kicked By:** {message.from_user.mention if message.from_user else 'Anon'}
-**Reason:** {reason or 'No Reason Provided.'}"""
+**Another one goes kicked. Name:** {mention}
+**Kick Kiya to Reason bhi dekhlo:** {reason or 'No Reason Provided.'}
+**User kicked by:** {message.from_user.mention if message.from_user else 'Anon'}"""
     if message.command[0][0] == "d":
         await message.reply_to_message.delete()
     await message.chat.kick_member(user_id)
@@ -234,11 +234,7 @@ async def banFunc(_, message: Message):
         return await message.reply_text("I can't find that user.")
     if user_id == BOT_ID:
         return await message.reply_text(
-            "I can't ban myself, i can leave if you want."
-        )
-    if user_id in SUDOERS:
-        return await message.reply_text(
-            "You Wanna Ban The Elevated One?, RECONSIDER!"
+            "Koi Sense Hei baat ka? Matlab khudko hi ban karu? Kya yaar matlab."
         )
     if user_id in (await list_admins(message.chat.id)):
         return await message.reply_text(
@@ -294,10 +290,10 @@ async def unbanFunc(_, message: Message):
         user = message.reply_to_message.from_user.id
     else:
         return await message.reply_text(
-            "Provide a username or reply to a user's message to unban."
+            "Provide the username or tag that annoying person's last message to unban him."
         )
     await message.chat.unban_member(user)
-    await message.reply_text("Unbanned!")
+    await message.reply_text("Given this annoying user one more chance. Unbanned!")
 
 
 # Delete messages
@@ -326,13 +322,13 @@ async def deleteFunc(_, message: Message):
 async def promoteFunc(_, message: Message):
     user_id = await extract_user(message)
     if not user_id:
-        return await message.reply_text("I can't find that user.")
+        return await message.reply_text("Cant find the user who will be promoted. Try again!")
     bot = await app.get_chat_member(message.chat.id, BOT_ID)
     if user_id == BOT_ID:
-        return await message.reply_text("I can't promote myself.")
+        return await message.reply_text("Ayeee BSDK - Khud ko kaise Promote karu?. But yes I can demote you if want LOL")
     if not bot.can_promote_members:
         return await message.reply_text(
-            "I don't have enough permissions"
+            "@admins Please provide me the neccesary permisions. I am a good robot after all"
         )
     await message.chat.promote_member(
         user_id=user_id,
@@ -345,7 +341,7 @@ async def promoteFunc(_, message: Message):
         can_manage_chat=bot.can_manage_chat,
         can_manage_voice_chats=bot.can_manage_voice_chats,
     )
-    await message.reply_text("Promoted!")
+    await message.reply_text("Made this kiddo a king from a normal chumtiya. Promoted!")
 
 
 # Demote Member
@@ -360,10 +356,7 @@ async def demote(_, message: Message):
     if not user_id:
         return await message.reply_text("I can't find that user.")
     if user_id == BOT_ID:
-        return await message.reply_text("I can't demote myself.")
-    if user_id in SUDOERS:
-        return await message.reply_text(
-            "You wanna demote the elevated one?, RECONSIDER!"
+        return await message.reply_text("I can't demote myself. Aur kya hi bolu. Ufffffff")
         )
     if user_id in (await list_admins(message.chat.id)):
         return await message.reply_text(
@@ -393,12 +386,12 @@ async def demote(_, message: Message):
 async def pin(_, message: Message):
     if not message.reply_to_message:
         return await message.reply_text(
-            "Reply to a message to pin it."
+            "YO! Kindly tag the message you want to pin. Thora common sense laga lawde :)"
         )
     r = message.reply_to_message
     await r.pin(disable_notification=True)
     await message.reply(
-        f"**Pinned [this]({r.link}) message.**",
+        f"**Pinned [this]({r.link}) message successfully. Now dance.**",
         disable_web_page_preview=True,
     )
     msg = "Please check the pinned message: ~ " + f"[Check, {r.link}]"
@@ -427,16 +420,16 @@ async def mute(_, message: Message):
         )
     if user_id in (await list_admins(message.chat.id)):
         return await message.reply_text(
-            "I can't mute an admin, You know the rules, so do i."
+            "My master has provided me ability to mute admins. But being a group management bot it will not look good if I mute a admin. SORRY"
         )
     await message.chat.restrict_member(
         user_id, permissions=ChatPermissions()
     )
     mention = (await app.get_users(user_id)).mention
-    keyboard = ikb({"🚨   Unmute   🚨": f"unmute_{user_id}"})
+    keyboard = ikb({"   Yaha daba aur unmute kar  ": f"unmute_{user_id}"})
     msg = (
-        f"**Muted User:** {mention}\n"
-        f"**Muted By:** {message.from_user.mention if message.from_user else 'Anon'}\n"
+        f"**. WHO?:** {mention}\n"
+        f"**Muted By Admin:** {message.from_user.mention if message.from_user else 'Anon'}\n"
     )
     if message.command[0] == "tmute":
         split = reason.split(None, 1)
@@ -525,41 +518,37 @@ async def warn_user(_, message: Message):
         return await message.reply_text(
             "I can't warn myself, i can leave if you want."
         )
-    if user_id in SUDOERS:
-        return await message.reply_text(
-            "You Wanna Warn The Elevated One?, RECONSIDER!"
-        )
     if user_id in (await list_admins(chat_id)):
         return await message.reply_text(
-            "I can't warn an admin, You know the rules, so do i."
+            "My master has provided me ability to warn admins. But being a group management bot it will not look good if I warn an admin. SORRY"
         )
     if user_id not in (await list_members(chat_id)):
-        return await message.reply_text("This user isn't here.")
+        return await message.reply_text("Cant Find this ugly looking human here. Retry!")
     user, warns = await asyncio.gather(
         app.get_users(user_id),
         get_warn(chat_id, await int_to_alpha(user_id)),
     )
     mention = user.mention
-    keyboard = ikb({"🚨  Remove Warn  🚨": f"unwarn_{user_id}"})
+    keyboard = ikb({" Press here to unmute that shit ": f"unwarn_{user_id}"})
     if warns:
         warns = warns["warns"]
     else:
         warns = 0
     if message.command[0][0] == "d":
         await message.reply_to_message.delete()
-    if warns >= 2:
+    if warns >= 4:
         await message.chat.kick_member(user_id)
         await message.reply_text(
-            f"Number of warns of {mention} exceeded, BANNED!"
+            f"Bohot hogeya lawde ka {mention}, BANNED!"
         )
         await remove_warns(chat_id, await int_to_alpha(user_id))
     else:
         warn = {"warns": warns + 1}
         msg = f"""
-**Warned User:** {mention}
+**Warned!:** {mention}
 **Warned By:** {message.from_user.mention if message.from_user else 'Anon'}
-**Reason:** {reason or 'No Reason Provided.'}
-**Warns:** {warns + 1}/3"""
+**Warn Kiya to Reason bhi dekhlo:** {reason or 'No Reason Provided.'}
+**Warns:** {warns + 1}/5"""
         await message.reply_text(msg, reply_markup=keyboard)
         await add_warn(chat_id, await int_to_alpha(user_id), warn)
 
@@ -633,9 +622,9 @@ async def check_warns(_, message: Message):
     if warns:
         warns = warns["warns"]
     else:
-        return await message.reply_text(f"{mention} has no warnings.")
+        return await message.reply_text(f"{mention} has no warnings. Ab nach bokachomnda ;)")
     return await message.reply_text(
-        f"{mention} has {warns}/3 warnings."
+        f"{mention} has {warns}/5 warnings."
     )
 
 
@@ -652,13 +641,9 @@ async def check_warns(_, message: Message):
 )
 @capture_err
 async def report_user(_, message):
-    if not message.reply_to_message:
-        return await message.reply_text(
-            "Reply to a message to report user."
-        )
     list_of_admins = await list_admins(message.chat.id)
-    user_mention = message.reply_to_message.from_user.mention
+    user_mention = message.from_user.mention
     text = f"Reported {user_mention} to admins."
     for admin in list_of_admins:
         text += f"[\u2063](tg://user?id={admin})"
-    await message.reply_to_message.reply_text(text)
+    await message.reply_text(text)
