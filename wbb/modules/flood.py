@@ -38,9 +38,9 @@ from wbb.utils.filter_groups import flood_group
 
 __MODULE__ = "Flood"
 __HELP__ = """
-Anti-Flood system, the one who sends more than 10 messages in a row, gets muted for an hour (Except for admins).
+Anti-Flood system, the one who sends more than 7 messages in a row, gets muted for an hour (Except for admins). A Helpful module to prevent automated spam by any user in that Chat Group.
 
-/flood [ENABLE|DISABLE] - Turn flood detection on or off
+/flood [ON|OFF] - TURNS FLOOD DETECTION ON/TURNS FLOOD DETECTION OFF
 """
 
 
@@ -91,14 +91,14 @@ async def flood_control_func(_, message: Message):
     if user_id in mods:
         return
 
-    # Mute if user sends more than 10 messages in a row
-    if DB[chat_id][user_id] >= 10:
+    # Mute if user sends more than 7 messages in a row
+    if DB[chat_id][user_id] >= 7:
         DB[chat_id][user_id] = 0
         try:
             await message.chat.restrict_member(
                 user_id,
                 permissions=ChatPermissions(),
-                until_date=int(time() + 3600),
+                until_date=int(time() + 18000),
             )
         except Exception:
             return
@@ -106,14 +106,14 @@ async def flood_control_func(_, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        text="🚨   Unmute   🚨",
+                        text="  YAHA DABA UNMUTE KARNE KELIYE  ",
                         callback_data=f"unmute_{user_id}",
                     )
                 ]
             ]
         )
         m = await message.reply_text(
-            f"Imagine flooding the chat in front of me, Muted {mention} for an hour!",
+            f"Chup Lawde Ssshhhhh - mere samne no SPAMMING. Muted! {mention} for 5 hours. If mistake press Unmute button",
             reply_markup=keyboard,
         )
 
@@ -139,7 +139,7 @@ async def flood_callback_func(_, cq: CallbackQuery):
     if permission not in permissions:
         return await cq.answer(
             "You don't have enough permissions to perform this action.\n"
-            + f"Permission needed: {permission}",
+            + f"Permission needed to make up the action: {permission}",
             show_alert=True,
         )
     user_id = cq.data.split("_")[1]
@@ -155,18 +155,18 @@ async def flood_callback_func(_, cq: CallbackQuery):
 async def flood_toggle(_, message: Message):
     if len(message.command) != 2:
         return await message.reply_text(
-            "Usage: /flood [ENABLE|DISABLE]"
+            "Usage: /flood [ON|OFF]"
         )
     status = message.text.split(None, 1)[1].strip()
     status = status.lower()
     chat_id = message.chat.id
-    if status == "enable":
+    if status == "on":
         await flood_on(chat_id)
         await message.reply_text("Enabled Flood Checker.")
-    elif status == "disable":
+    elif status == "off":
         await flood_off(chat_id)
         await message.reply_text("Disabled Flood Checker.")
     else:
         await message.reply_text(
-            "Unknown Suffix, Use /flood [ENABLE|DISABLE]"
+            "ERROR COMMAND, Use Flood command to get help [/Flood]"
         )
