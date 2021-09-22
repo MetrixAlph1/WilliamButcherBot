@@ -75,7 +75,7 @@ async def arq_upload(_, message):
     if message.reply_to_message:
         if UPLOAD_LOCK.locked():
             return await message.reply(
-                "One upload is already in progress, please try again later"
+                "A File is Already Being Uploaded Now - Please try after once its get over"
             )
         async with UPLOAD_LOCK:
             r = message.reply_to_message
