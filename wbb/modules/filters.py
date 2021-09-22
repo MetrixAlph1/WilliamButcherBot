@@ -35,12 +35,9 @@ from wbb.utils.filter_groups import chat_filters_group
 from wbb.utils.functions import extract_text_and_keyb
 
 __MODULE__ = "Filters"
-__HELP__ = """/filters To Get All The Filters In The Chat.
-/filter [FILTER_NAME] To Save A Filter (Can be a sticker or text).
-/stop [FILTER_NAME] To Stop A Filter.
-
-
-You can use markdown or html to save text too."""
+__HELP__ = """To Get All The Filters Made Available For This Chat /Filters.
+/filter [NAME_OF_THE_FILTER] To Save A Filter (Can be anything).
+/stop [NAME_OF_THE_FILTER] To Stop A Filter."""
 
 
 @app.on_message(
@@ -50,19 +47,19 @@ You can use markdown or html to save text too."""
 async def save_filters(_, message):
     if len(message.command) < 2 or not message.reply_to_message:
         return await message.reply_text(
-            "**Usage:**\nReply to a text or sticker with /filter [FILTER_NAME] to save it."
+            "**Usage:**\nReply to a text or sticker with NAME OF THE FILTER to save it. /Filter"
         )
     if (
         not message.reply_to_message.text
         and not message.reply_to_message.sticker
     ):
         return await message.reply_text(
-            "__**You can only save text or stickers in filters.**__"
+            "__**You can only save text or stickers or videos in filters.**__"
         )
     name = message.text.split(None, 1)[1].strip()
     if not name:
         return await message.reply_text(
-            "**Usage:**\n__/filter [FILTER_NAME]__"
+            "**Usage:**\n__/filter [NAME_OF_THE_FILTER]__"
         )
     chat_id = message.chat.id
     _type = "text" if message.reply_to_message.text else "sticker"
@@ -73,7 +70,7 @@ async def save_filters(_, message):
         else message.reply_to_message.sticker.file_id,
     }
     await save_filter(chat_id, name, _filter)
-    await message.reply_text(f"__**Saved filter {name}.**__")
+    await message.reply_text(f"__**Successfully Saved Filter with NAME {name}.**__")
 
 
 @app.on_message(
@@ -84,7 +81,7 @@ async def get_filterss(_, message):
     _filters = await get_filters_names(message.chat.id)
     if not _filters:
         return await message.reply_text(
-            "**No filters in this chat.**"
+            "**Currently There Is No Active Filters In This Chat. No worries make it now by /Filter {help}**"
         )
     _filters.sort()
     msg = f"List of filters in {message.chat.title}\n"
@@ -100,19 +97,19 @@ async def get_filterss(_, message):
 async def del_filter(_, message):
     if len(message.command) < 2:
         return await message.reply_text(
-            "**Usage:**\n__/stop [FILTER_NAME]__"
+            "**Usage:**\n__/stop [NAME_OF_THE_FILTER]__"
         )
     name = message.text.split(None, 1)[1].strip()
     if not name:
         return await message.reply_text(
-            "**Usage:**\n__/stop [FILTER_NAME]__"
+            "**Usage:**\n__/stop [NAME_OF_THE_FILTER]__"
         )
     chat_id = message.chat.id
     deleted = await delete_filter(chat_id, name)
     if deleted:
-        await message.reply_text(f"**Deleted filter {name}.**")
+        await message.reply_text(f"**Successfully Burned That Ugly Filter With Name {name} Into Fire.**")
     else:
-        await message.reply_text("**No such filter.**")
+        await message.reply_text("**There are no such filters active in this chat. Make one by using /Filter.**")
 
 
 @app.on_message(
